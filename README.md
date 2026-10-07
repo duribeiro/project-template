@@ -64,7 +64,8 @@ Exigem ação sua, porque envolvem segredo: o token da revisão por IA (`gh secr
 
 - **Projeto solo:** `bash scripts/configure-github.sh` (0 aprovações humanas, a revisão por IA decide).
 - **Projeto aberto:** `APPROVALS=1 bash scripts/configure-github.sh`. Em pedidos vindos de fork, o GitHub não entrega o token da revisão por IA e uma pessoa mantenedora revisa e junta à mão (explicado em `CONTRIBUTING.md`).
-- Repositório privado em plano gratuito não aceita proteção de branch. O script avisa qual passo falhou.
+- Em repositório privado, a proteção da `main`, as regras de merge e a release funcionam (medido em 07/10/2026). Varredura de segredo do GitHub, relato privado de vulnerabilidade e a aprovação de pedidos de fork só existem em repositório público: o script os pula e avisa. Rode de novo depois de tornar o repositório público.
+- Sem o token da revisão por IA, a conferência `ai-review` falha. Enquanto o token não existe, rode `CHECKS="build scan" bash scripts/configure-github.sh`, e depois sem o `CHECKS` quando o token estiver no repositório.
 
 ## Versão
 
