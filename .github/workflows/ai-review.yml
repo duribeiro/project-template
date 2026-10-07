@@ -1,4 +1,4 @@
-name: Revisão por IA
+name: AI review
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ jobs:
   ai-review:
     if: >-
       github.event.pull_request.draft == false &&
-      (github.event.action != 'labeled' || github.event.label.name == 'liberado')
+      (github.event.action != 'labeled' || github.event.label.name == 'human-approved')
     runs-on: ubuntu-latest
     outputs:
       verdict: ${{ steps.verdict.outputs.verdict }}
@@ -35,7 +35,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - id: review
-        if: "!(github.event.action == 'labeled' && github.event.label.name == 'liberado')"
+        if: "!(github.event.action == 'labeled' && github.event.label.name == 'human-approved')"
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -83,7 +83,7 @@ jobs:
         env:
           OUTPUT: ${{ steps.review.outputs.structured_output }}
           UPDATE_TYPE: ${{ steps.dependabot.outputs.update-type }}
-          RELEASED: ${{ github.event.action == 'labeled' && github.event.label.name == 'liberado' }}
+          RELEASED: ${{ github.event.action == 'labeled' && github.event.label.name == 'human-approved' }}
         run: |
           verdict=$(printf '%s' "$OUTPUT" | jq -r '.verdict // empty' 2>/dev/null || true)
           reason=$(printf '%s' "$OUTPUT" | jq -r '.reason // empty' 2>/dev/null || true)
@@ -121,7 +121,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           files=$(gh api "repos/$GH_REPO/pulls/$PR_NUMBER/files" --paginate --jq ".[].filename") || { echo "::error::Não consegui listar os arquivos do pedido. Nada foi juntado."; exit 1; }
-          if grep -q "^esteira/" <<< "$files"; then
+          if grep -q "^pipeline/" <<< "$files"; then
             echo "::notice::O pedido muda a esteira. Só o dono do projeto junta."
             exit 0
           fi

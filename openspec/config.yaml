@@ -6,7 +6,7 @@ context: |
   Cofre de segredos: (preencha quando decidido).
   Ambientes: dev e producao. Caminho do codigo: GitHub flow (branch curta a partir da main, pedido de juncao para a main).
   Quem le e o dono do projeto. Ele le o texto, nao o codigo: escreva o efeito, nao o mecanismo.
-  Decisoes duradouras ficam em esteira/decisoes (skill adr) e no OpenSpec, na mudanca que as tomou. Regras de trabalho ficam em AGENTS.md.
+  Decisoes duradouras ficam em pipeline/decisions (skill adr) e no OpenSpec, na mudanca que as tomou. Regras de trabalho ficam em AGENTS.md.
 
 rules:
   proposal:
@@ -24,5 +24,5 @@ rules:
     - Arquitetura se desenha em bloco de código, com caixas e setas.
   tasks:
     - Cada tarefa diz como validar e como reverter.
-    - Tarefa que só o dono pode fazer leva [DONO] e o motivo.
+    - Tarefa que só o dono pode fazer leva [OWNER] e o motivo.
     - Tarefa que chega a produção passa antes pelo dev.

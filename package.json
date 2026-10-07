@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "decisoes": "node .claude/skills/adr/scripts/decisions-index.mjs esteira/decisoes"
+    "decisions": "node .claude/skills/adr/scripts/decisions-index.mjs pipeline/decisions"
   },
   "devDependencies": {
     "@fission-ai/openspec": "^1.13.2",

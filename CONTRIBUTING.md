@@ -12,7 +12,7 @@ Toda mudança passa por três conferências.
 
 A revisão por IA é conferência obrigatória, junto com `build` e `scan`. Commit novo num pedido já aprovado volta a esperar a IA revisar.
 
-Se a IA pedir análise, a conferência dela fica vermelha e nada é juntado. Uma pessoa lê os comentários e decide: corrige e envia de novo, ou coloca a etiqueta `liberado` no pedido e junta à mão. A etiqueta libera só o commit que estava no pedido quando ela foi colocada.
+Se a IA pedir análise, a conferência dela fica vermelha e nada é juntado. Uma pessoa lê os comentários e decide: corrige e envia de novo, ou coloca a etiqueta `human-approved` no pedido e junta à mão. A etiqueta libera só o commit que estava no pedido quando ela foi colocada.
 
 Comentário de revisão aberto também segura a junção. Responda e marque como resolvido.
 
