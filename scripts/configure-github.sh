@@ -26,6 +26,9 @@ is_private="$(gh repo view --json isPrivate --jq .isPrivate)"
 echo "Repositorio: $repo (privado: $is_private). Aprovacoes humanas na main: $APPROVALS"
 
 failures=0
+skip_step() {
+  echo "  pulado  $1 (so existe em repositorio publico; rode de novo depois de tornar o repositorio publico)"
+}
 run_step() {
   local description="$1"
   shift
@@ -69,17 +72,26 @@ rm -f "$protection_file"
 echo "3. Seguranca"
 run_step "alertas de dependencia vulneravel" gh api -X PUT "repos/$repo/vulnerability-alerts"
 run_step "correcao automatica de dependencia vulneravel" gh api -X PUT "repos/$repo/automated-security-fixes"
-run_step "varredura de segredo e bloqueio de push com segredo" \
-  gh api -X PATCH "repos/$repo" \
-    -f 'security_and_analysis[secret_scanning][status]=enabled' \
-    -f 'security_and_analysis[secret_scanning_push_protection][status]=enabled'
-run_step "relato privado de vulnerabilidade" gh api -X PUT "repos/$repo/private-vulnerability-reporting"
+if [ "$is_private" = "true" ]; then
+  skip_step "varredura de segredo e bloqueio de push com segredo"
+  skip_step "relato privado de vulnerabilidade"
+else
+  run_step "varredura de segredo e bloqueio de push com segredo" \
+    gh api -X PATCH "repos/$repo" \
+      -f 'security_and_analysis[secret_scanning][status]=enabled' \
+      -f 'security_and_analysis[secret_scanning_push_protection][status]=enabled'
+  run_step "relato privado de vulnerabilidade" gh api -X PUT "repos/$repo/private-vulnerability-reporting"
+fi
 
 echo "4. Actions"
 run_step "permissao padrao so de leitura, Actions nao aprova pedido" \
   gh api -X PUT "repos/$repo/actions/permissions/workflow" -f default_workflow_permissions=read -F can_approve_pull_request_reviews=false
-run_step "pedido de fork de gente de fora espera aprovacao antes de rodar" \
-  gh api -X PUT "repos/$repo/actions/permissions/fork-pr-contributor-approval" -f approval_policy=all_external_contributors
+if [ "$is_private" = "true" ]; then
+  skip_step "pedido de fork de gente de fora espera aprovacao antes de rodar"
+else
+  run_step "pedido de fork de gente de fora espera aprovacao antes de rodar" \
+    gh api -X PUT "repos/$repo/actions/permissions/fork-pr-contributor-approval" -f approval_policy=all_external_contributors
+fi
 
 echo "5. Etiquetas"
 run_step "etiqueta human-approved" gh label create human-approved --color 0E8A16 --description "Pessoa liberou o pedido apos a IA pedir analise" --force
@@ -106,6 +118,6 @@ echo "  c) Licenca: troque o texto do arquivo LICENSE antes de tornar o reposito
 
 if [ "$failures" -gt 0 ]; then
   echo
-  echo "$failures passo(s) falharam. Causas comuns: repositorio privado em plano gratuito (protecao e varredura de segredo exigem plano pago ou repositorio publico), ou a main ainda nao foi enviada." >&2
+  echo "$failures passo(s) falharam. Causa comum: a main ainda nao foi enviada ao GitHub." >&2
   exit 2
 fi
