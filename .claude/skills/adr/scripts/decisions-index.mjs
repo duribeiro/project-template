@@ -146,7 +146,7 @@ function writeIndex(folder, decisions) {
 }
 
 function main() {
-  const root = resolve(process.argv[2] ?? "decisoes");
+  const root = resolve(process.argv[2] ?? "decisions");
   if (!existsSync(join(root, "README.md"))) throw new Error(`pasta de decisões sem README.md: ${root}`);
 
   const { decisionPaths, readmePaths, folders } = scanFolder(root);

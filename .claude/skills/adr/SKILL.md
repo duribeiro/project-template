@@ -33,7 +33,7 @@ Nada é obrigatório. Com as ferramentas abaixo, o trabalho fica automático e c
 └── ...
 ```
 
-- Os assuntos saem do projeto, não desta skill. Exemplos: `regras-de-negocio`, `arquitetura`, `interface`, `dados`, `seguranca`, `processo-de-trabalho`.
+- Os assuntos saem do projeto, não desta skill. Exemplos: `business-rules`, `arquitetura`, `interface`, `dados`, `seguranca`, `work-process`.
 - Pastas nascem sob demanda: a pasta de um assunto é criada junto com a primeira decisão dele. Não criar pastas vazias nem pedir a lista de assuntos de antemão.
 - Nome de pasta: descritivo, minúsculo, sem acento, sem número na frente. Número só quando a ordem importa e vem de fora (ex.: telas numeradas de um arquivo de desenho: `01-inicio`, `02-produto`).
 - Toda pasta com decisões tem `README.md`. Pasta nova ganha índice sozinha ao rodar o programa.
@@ -124,7 +124,7 @@ node <pasta-desta-skill>/scripts/decisions-index.mjs <pasta-de-decisoes>
 
 Com Bun, trocar `node` por `bun` (testado: mesmo resultado). Com Deno, `deno run --allow-read --allow-write` deve funcionar, porque o programa só usa `node:fs` e `node:path`, mas ainda não foi testado.
 
-Se o projeto tem `package.json`, sugerir ao usuário copiar o programa para o projeto e criar um atalho, por exemplo `"decisoes": "node scripts/decisions-index.mjs docs/decisoes"`.
+Se o projeto tem `package.json`, sugerir ao usuário copiar o programa para o projeto e criar um atalho, por exemplo `"decisions": "node scripts/decisions-index.mjs docs/decisoes"`.
 
 ## Quando uma decisão aparece na conversa
 
@@ -163,4 +163,4 @@ Cada item de origem vira um arquivo. O agente interpreta o conteúdo; não depen
 
 ## Ao citar uma decisão
 
-No chat e em documento, toda decisão citada leva link para o arquivo dela, por exemplo `[12](decisoes/interface/0012-titulo-curto.md)`. Nunca só o número: a pessoa não sabe em que pasta ela está.
+No chat e em documento, toda decisão citada leva link para o arquivo dela, por exemplo `[12](decisions/interface/0012-titulo-curto.md)`. Nunca só o número: a pessoa não sabe em que pasta ela está.

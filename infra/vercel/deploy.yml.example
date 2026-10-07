@@ -1,0 +1,55 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-${{ github.event_name == 'release' && 'production' || 'dev' }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: >-
+      github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'release' && startsWith(github.ref_name, 'v'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - if: github.event_name == 'release'
+        run: git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: Infisical/secrets-action@d2e351f16c6ca20d17c85e6c992e04bdeb64e87d
+        with:
+          method: oidc
+          identity-id: ${{ vars.INFISICAL_IDENTITY_ID }}
+          domain: <URL-DO-COFRE>
+          project-id: <ID-DO-PROJETO-NO-COFRE>
+          env-slug: prod
+          export-type: env
+      - name: Deploy
+        env:
+          TARGET: ${{ github.event_name == 'release' && 'production' || 'preview' }}
+        run: |
+          npx vercel pull --yes --environment="$TARGET" --token="$VERCEL_TOKEN"
+          if [ "$TARGET" = "production" ]; then
+            npx vercel build --prod --token="$VERCEL_TOKEN"
+            npx vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+          else
+            npx vercel build --token="$VERCEL_TOKEN"
+            npx vercel deploy --prebuilt --token="$VERCEL_TOKEN"
+          fi

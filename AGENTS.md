@@ -1,8 +1,8 @@
 # NOME-DO-PROJETO
 
-Descreva em uma frase o que este projeto é e para quem. Preencha na primeira sessão, junto com `esteira/01-problema-e-visao`.
+Descreva em uma frase o que este projeto é e para quem. Preencha na primeira sessão, junto com `pipeline/01-problem-and-vision`.
 
-**Estado de hoje:** projeto recém-criado a partir do modelo `project-template`. Nada decidido ainda. A próxima ação está em `esteira/ESTADO.md`.
+**Estado de hoje:** projeto recém-criado a partir do modelo `project-template`. Nada decidido ainda. A próxima ação está em `pipeline/STATE.md`.
 
 Trabalho em aberto vive no OpenSpec (`openspec/changes/`). Este arquivo só diz como se trabalha aqui.
 
@@ -32,7 +32,7 @@ Trabalho em aberto vive no OpenSpec (`openspec/changes/`). Este arquivo só diz 
 
 ## A esteira
 
-O projeto roda a esteira de 9 etapas, na pasta `esteira/`. Cada etapa tem uma pasta com `README.md` (o que entra, o que sai, quem decide, critério de aceite) e `prompt.md` (o roteiro que o agente segue). O índice e o estado estão em `esteira/README.md` e `esteira/ESTADO.md`. Leia o `ESTADO.md` antes de qualquer tarefa.
+O projeto roda a esteira de 9 etapas, na pasta `pipeline/`. Cada etapa tem uma pasta com `README.md` (o que entra, o que sai, quem decide, critério de aceite) e `prompt.md` (o roteiro que o agente segue). O índice e o estado estão em `pipeline/README.md` e `pipeline/STATE.md`. Leia o `STATE.md` antes de qualquer tarefa.
 
 - O dono decide em três pontos: visão (etapa 1), wireframe (etapa 4) e entrega (etapa 9). Entre esses pontos o agente segue sozinho. As histórias de usuário não passam por aprovação prévia: o dono avalia o resultado construído.
 - **Só perguntar o que precisa.** A pergunta sobe ao dono quando as três condições valem juntas: a resposta não está nos documentos aprovados, ela muda o resultado, e o agente não consegue medir nem pesquisar sozinho. Se faltar uma, o agente decide e registra.
@@ -42,7 +42,7 @@ O projeto roda a esteira de 9 etapas, na pasta `esteira/`. Cada etapa tem uma pa
 
 ## Decisões
 
-- Cada decisão é um arquivo em `esteira/decisoes/`, no formato da skill `adr`. O índice se refaz com `npm run decisoes`.
+- Cada decisão é um arquivo em `pipeline/decisions/`, no formato da skill `adr`. O índice se refaz com `npm run decisions`.
 - Decisão antiga nunca é apagada. Trecho riscado não vale: a linha Estado aponta a decisão que o substituiu.
 - Decisão citada leva link para o arquivo dela, no chat e em documento, nunca só o número.
 
@@ -63,9 +63,9 @@ Conventional Commits, em inglês: `type(scope): subject`. Subject minúsculo, im
 
 1. revisão local com o agente antes de enviar, pelo `/code-review`;
 2. revisão por IA no GitHub, que comenta e dá o veredito;
-3. se ela aprovar, o GitHub junta sozinho depois que `build` e `scan` ficarem verdes. Se ela pedir análise, nada é juntado e uma pessoa decide: corrige, ou põe a etiqueta `liberado` e junta à mão.
+3. se ela aprovar, o GitHub junta sozinho depois que `build` e `scan` ficarem verdes. Se ela pedir análise, nada é juntado e uma pessoa decide: corrige, ou põe a etiqueta `human-approved` e junta à mão.
 
-A revisão por IA é conferência obrigatória: commit novo depois da aprovação volta a esperar por ela. O robô de dependências segue o mesmo caminho, e salto de versão maior nunca entra sozinho. Pedido que mexe em `esteira/` só o dono junta.
+A revisão por IA é conferência obrigatória: commit novo depois da aprovação volta a esperar por ela. O robô de dependências segue o mesmo caminho, e salto de versão maior nunca entra sozinho. Pedido que mexe em `pipeline/` só o dono junta.
 
 ## Regras que não se negociam
 
