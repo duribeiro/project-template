@@ -1,0 +1,14 @@
+{
+  "name": "project-name",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "decisoes": "node .claude/skills/adr/scripts/decisions-index.mjs esteira/decisoes"
+  },
+  "devDependencies": {
+    "@fission-ai/openspec": "^1.13.2",
+    "@infisical/cli": "^0.43.137",
+    "oxlint": "^1.85.0"
+  }
+}

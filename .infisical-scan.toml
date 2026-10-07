@@ -1,0 +1,11 @@
+# Lista do que o procurador de segredo pode ignorar neste repositorio.
+# Cada excecao precisa de motivo escrito e de data da conferencia.
+
+[extend]
+useDefault = true
+
+# Exemplo (apague ao usar):
+# [[allowlists]]
+# description = "chave de exemplo na documentacao do fornecedor, conferida em AAAA-MM-DD, nao e segredo"
+# paths = ['''docs/fornecedor\.md''']
+# regexes = ['''sk_live_exemplo''']

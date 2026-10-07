@@ -1,0 +1,18 @@
+# segredo nunca entra no repositorio
+.env
+.env.*
+!.env.example
+.dev.vars
+.infisical.json
+.mcp.json
+
+# saida de build e dependencias
+node_modules/
+dist/
+*.tsbuildinfo
+
+# lixo de execucao
+.wrangler/
+.tmp-teste/
+plan/
+*.log
